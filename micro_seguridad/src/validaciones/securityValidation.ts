@@ -5,7 +5,7 @@ export const validateTokenSchema= Joi.object({
     .length(8)
     .required()
     .messages({
-      'string.length': 'Longitud incorrecta', //Preferible que no vaya, solo para mostrar
+      'string.length': 'Longitud incorrecta', //Preferible que no vaya este mensaje, solo para mostrar
       'any.required': 'El token es obligatorio para la validacion'
     })
 });

@@ -1,6 +1,8 @@
 import { Server, Request, ResponseToolkit } from "@hapi/hapi";
 import { sequelize, Cliente, Parametro } from "./models";
 import redisClient, { connectRedis } from "./config/redis";
+import { initRabbitMQ } from "./config/rabbitmq";
+
 
 const init = async () => {
   let connected = false;
@@ -13,13 +15,13 @@ const init = async () => {
       await sequelize.sync({ alter: true });
       console.log("Conexion a la BD establecida");
 
+      //Conexion con Redis
       const count = await Parametro.count();
       if (count === 0) {
         await Parametro.create({ clave: "envio_correos", valor: "true" });
         console.log("Parametro de inicializado");
       }
 
-      //Conexion con Redis
       await connectRedis();
       const params = await Parametro.findAll();
       for (const p of params) {
@@ -27,8 +29,11 @@ const init = async () => {
       }
       console.log("Parametros sincronizados con Redis");
 
+      await initRabbitMQ();
+
       connected = true;
-    } catch (error) { // Bloque para que se reintente cada tiempo hasta conectarse a la BD
+    } catch (error) {
+      // Bloque para que se reintente cada tiempo hasta conectarse a la BD
       retries--;
       console.error("Error al conectar con la BD: ", error);
       if (retries === 0) process.exit(1);
@@ -43,7 +48,7 @@ const init = async () => {
     },
   });
 
-  await server.register(require("./routes/routes.plugin"));
+  await server.register(require("./routes/route.plugin"));
 
   try {
     await server.start();

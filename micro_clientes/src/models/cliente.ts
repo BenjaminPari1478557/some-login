@@ -24,6 +24,14 @@ export const initClienteModel = (sequelize: Sequelize) => {
             type: DataTypes.STRING(100),
             allowNull: false
         },
+        email:{
+            type:DataTypes.STRING(50),
+            allowNull:false,
+            unique:true,
+            validate:{
+                isEmail:true
+            }
+        },
         fecha_nacimiento: {
             type: DataTypes.DATEONLY,
             allowNull: false
