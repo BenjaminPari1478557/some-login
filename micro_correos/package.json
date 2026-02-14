@@ -1,0 +1,27 @@
+{
+  "name": "micro_correos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/server.js",
+    "dev": "ts-node server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.4",
+    "axios": "^1.13.5",
+    "joi": "^18.0.2",
+    "mysql2": "^3.17.0",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "typescript": "^5.9.3"
+  }
+}

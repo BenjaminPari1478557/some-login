@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+
+# Compilación
+dist/
+build/
+
+# Variables de entorno (Secretos)
+.env
+.env.local
+
+# Docker e IDEs
+.DS_Store
+.vscode/
+.idea/
+*.log
+docker/data/ # Si mapeas volúmenes de DB

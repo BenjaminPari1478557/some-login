@@ -1,0 +1,98 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      #MYSQL_USER: ${DB_USER}
+      #MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  redis-cache:
+    image: redis:alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+  micro-seguridad:
+    build: ./micro_seguridad
+    container_name: micro-seguridad
+    ports:
+      - "${SEGURIDAD_PORT}:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_DIALECT=${DB_DIALECT}
+      - REDIS_URL=${REDIS_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+    depends_on:
+      - mysql-db
+    networks:
+      - app-network
+
+  micro-clientes:
+    build: ./micro_clientes
+    container_name: micro-clientes
+    ports:
+      - "${CLIENTES_PORT}:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_DIALECT=${DB_DIALECT}
+      - REDIS_URL=${REDIS_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - SECURITY_SERVICE_URL=${SECURITY_SERVICE_URL}
+      - CORREOS_URL=${CORREOS_URL}
+    depends_on:
+      - mysql-db
+    networks:
+      - app-network
+
+  micro-correos:
+    build: ./micro_correos
+    container_name: micro-correos
+    ports:
+      - "${CORREOS_PORT}:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_DIALECT=${DB_DIALECT}
+      - REDIS_URL=${REDIS_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - SECURITY_SERVICE_URL=${SECURITY_SERVICE_URL}
+      - CLIENT_SERVICE_URL=${CLIENT_SERVICE_URL}
+    depends_on:
+      - mysql-db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
