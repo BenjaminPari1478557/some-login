@@ -11,6 +11,8 @@ services:
       - "3306:3306"
     networks:
       - app-network
+    volumes:
+      - db_data:/var/lib/mysql
 
   redis-cache:
     image: redis:alpine
@@ -42,8 +44,6 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_PORT=${DB_PORT}
       - DB_DIALECT=${DB_DIALECT}
-      - REDIS_URL=${REDIS_URL}
-      - RABBITMQ_URL=${RABBITMQ_URL}
     depends_on:
       - mysql-db
     networks:
@@ -65,9 +65,11 @@ services:
       - REDIS_URL=${REDIS_URL}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - SECURITY_SERVICE_URL=${SECURITY_SERVICE_URL}
-      - CORREOS_URL=${CORREOS_URL}
     depends_on:
       - mysql-db
+      - redis-cache
+      - rabbitmq
+      - micro-seguridad
     networks:
       - app-network
 
@@ -77,22 +79,22 @@ services:
     ports:
       - "${CORREOS_PORT}:${PORT}"
     environment:
-      - PORT=${PORT}
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_PORT=${DB_PORT}
-      - DB_DIALECT=${DB_DIALECT}
-      - REDIS_URL=${REDIS_URL}
       - RABBITMQ_URL=${RABBITMQ_URL}
-      - SECURITY_SERVICE_URL=${SECURITY_SERVICE_URL}
-      - CLIENT_SERVICE_URL=${CLIENT_SERVICE_URL}
     depends_on:
-      - mysql-db
+      - rabbitmq
     networks:
       - app-network
+  angular-frontend:
+    build: ./angular_cliente
+    ports:
+      - "4200:80"
+    depends_on:
+      - micro-clientes
+      - micro-seguridad
 
 networks:
   app-network:
     driver: bridge
+    
+volumes:
+  db_data:

@@ -16,6 +16,6 @@ export const registerClientSchema = Joi.object<IRegisterClientPayload>({
     "string.email": "El formato del correo electrónico no es válido",
     "any.required": "El correo electrónico es obligatorio",
   }),
-  bono_bienvenida: Joi.number().precision(2).min(0).required(),
+  bono_bienvenida: Joi.string().valid('BONO_DEPORTES', 'BONO_CASINO', 'BONO_CASINO_EN_VIVO', 'SIN_BONO').required(),
   token_seguridad: Joi.string().length(8).required(),
 });

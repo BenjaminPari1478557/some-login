@@ -63,7 +63,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">Tipo Documento</label>
           <select
             formControlName="tipo_documento"
-            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             <option value="DNI">DNI</option>
             <option value="CE">C.E.</option>
@@ -76,7 +76,7 @@
             type="text"
             formControlName="nro_documento"
             [class.border-red-500]="f['nro_documento'].touched && f['nro_documento'].errors"
-            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
           <p
             *ngIf="f['nro_documento'].touched && f['nro_documento'].errors"
@@ -93,7 +93,7 @@
           <input
             type="text"
             formControlName="nombres"
-            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
 
@@ -102,7 +102,7 @@
           <input
             type="text"
             formControlName="apellidos"
-            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
       </div>
@@ -113,7 +113,7 @@
           type="email"
           formControlName="email"
           [class.border-red-500]="f['email'].touched && f['email'].errors"
-          class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           placeholder="ejemplo@correo.com"
         />
         <p *ngIf="f['email'].touched && f['email'].errors" class="text-red-500 text-xs mt-1">
@@ -129,7 +129,7 @@
             formControlName="fecha_nacimiento"
             [max]="maxDate"
             [class.border-red-500]="f['fecha_nacimiento'].touched && f['fecha_nacimiento'].errors"
-            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
           <p
             *ngIf="f['fecha_nacimiento'].touched && f['fecha_nacimiento'].errors"

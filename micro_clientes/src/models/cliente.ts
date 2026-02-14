@@ -37,7 +37,7 @@ export const initClienteModel = (sequelize: Sequelize) => {
             allowNull: false
         },
         bono_bienvenida: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.STRING(100),
             allowNull: false
         }
     }, {
